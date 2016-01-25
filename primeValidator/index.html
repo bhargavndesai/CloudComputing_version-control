@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+	<link href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" rel="stylesheet">
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+    <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+<meta charset="UTF-8">
+<script type="text/javascript" src="primeChecker.js" runat="server">
+</script>
+<link rel="stylesheet" type="text/css" href="style.css">
+<title> Prime Number Validator </title>
+</head>
+<body>
+
+
+<div id="fieldset">
+<form name="myform" id="form1" method="post">
+
+<h3>Prime Number Validator</h3>
+  <fieldset class="form-group">
+    Enter Number:<input type="number" class="form-control" name="numvalue" id="formGroupExampleInput" placeholder="Prime Number">
+  </fieldset>
+  <button type="button" id="button1" onclick ="primeCheck();"  class="btn btn-success">submit</button>
+ 
+</form>
+</div>
+</body>
+</html>
+
