@@ -27,8 +27,8 @@ public class wordFrequency {
     public void map(Object key, Text value, Context context)
         throws IOException, InterruptedException {
        			long len=0;
-        String[] words = value.toString().split(" "); 
-        for(int i=0;i<words.length;i++){
+        String[] words = value.toString().split("\t"); 
+        for(int i=0;i<2;i++){
         len=words[0].length();
       context.write(new Text(words[1]), new LongWritable(len));  
       }
@@ -36,7 +36,7 @@ public class wordFrequency {
     }
   }
 
-public static class Combiner extends Reducer<Text, LongWritable, Text, LongWritable> {
+/*public static class Combiner extends Reducer<Text, LongWritable, Text, LongWritable> {
 
     public void reduce(Text key, Iterable<LongWritable> values, Context context)
         throws IOException, InterruptedException {
@@ -49,7 +49,7 @@ public static class Combiner extends Reducer<Text, LongWritable, Text, LongWrita
       System.out.println("The count is:"+count+"and the key is :"+key.toString());
       context.write(new Text(key+":"+count), new LongWritable(temp));
     }
-  }
+  }*/
 
 
   public static class FreqReduce extends Reducer<Text, LongWritable, Text, LongWritable> {
@@ -57,16 +57,22 @@ public static class Combiner extends Reducer<Text, LongWritable, Text, LongWrita
     public void reduce(Text key, Iterable<LongWritable> values, Context context)
         throws IOException, InterruptedException {
       
-      long temp = 0;
+      /*long temp = 0;
       String[] tmp=key.toString().split(":");
       int denom=Integer.parseInt(tmp[1]);
       for (LongWritable value : values) {
         temp = value.get();
         System.out.println("Temp value is "+temp);
-        temp=temp/denom;
+        temp=temp/denom;*/
+        int count=0;
+      long temp=0;
+      for (LongWritable value : values) {
+        temp = temp+value.get();
+        count=count+1;
+     // context.write(new Text(words[1]), new LongWritable(len)); 
         
       }
-      context.write(new Text(tmp[0]), new LongWritable(temp));
+      context.write(key, new LongWritable(temp/count));
     }
   }
 
@@ -86,7 +92,7 @@ public static class Combiner extends Reducer<Text, LongWritable, Text, LongWrita
     
     job.setMapperClass(FreqMap.class);
     job.setReducerClass(FreqReduce.class);
-    job.setCombinerClass(Combiner.class);
+    job.setCombinerClass(FreqReduce.class);
 
     job.setOutputKeyClass(Text.class);
     job.setOutputValueClass(LongWritable.class);
